@@ -1,4 +1,4 @@
-baseURL = "http://example.org/"
+baseURL = "https://til.tomoyayoshida.com/"
 languageCode = "en-us"
 title = "Today I Learned(TIL) by Tomoya Yoshida"
 [module]
