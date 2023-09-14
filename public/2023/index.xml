@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>2023s on My New Hugo Site</title>
+    <link>http://example.org/2023/</link>
+    <description>Recent content in 2023s on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 14 Sep 2023 23:21:01 +0900</lastBuildDate><atom:link href="http://example.org/2023/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ginのbindingは組み込みの型だけ使うべし</title>
+      <link>http://example.org/2023/09/14/</link>
+      <pubDate>Thu, 14 Sep 2023 23:21:01 +0900</pubDate>
+      
+      <guid>http://example.org/2023/09/14/</guid>
+      <description>ginのbindingでdecimalをfieldに指定していた。
+https://pkg.go.dev/github.com/shopspring/decimal
+こんな感じ。
+type Hoge struct { fuga decimal.Decimal `json:&amp;#34;fuga&amp;#34; binding:&amp;#34;required&amp;#34;` } このHogeをバインドしてもrequiredが効かない。
+ginのバインドで使っているのは↓。
+https://pkg.go.dev/github.com/go-playground/validator/v10
+requiredを見てみるとゼロ値である場合にエラーとなる。
+https://pkg.go.dev/github.com/go-playground/validator/v10#hdr-Required
+しかしdecimal.Decimalはgoの組み込み型ではなく、validatorで考慮されていない。
+RegisterCustomTypeFunc を使えばカスタム型、つまりdecimal.Decimalをvalidatorに組み込むことができるがとても面倒。
+今回はstringで受け付けてvalidatorはnumericで行い、後の処理でdecimalに変換することにした。
+こんな感じ。
+type Hoge struct { fuga string `json:&amp;#34;fuga&amp;#34; binding:&amp;#34;required,numeric&amp;#34;` } decimal.Decimalに限らずカスタム型はバインドする型のフィールドでは使わず、組み込み型を使うのがよさそう。</description>
+    </item>
+    
+  </channel>
+</rss>
